@@ -1,0 +1,53 @@
+O projeto tem como objetivo a melhoria das minhas habilidades como desenvolvedor
+quero construir um monolito e depois microserviços em volta dele.
+
+A api sera um sistema de controle de um parque aquatico
+
+[ ] primeira fase - cadastro de usuario
+    [  ] deve conter o cadastro de um usuario
+        [  ] ele pode ser cliente,atendente, gestor,gerente ou admin
+        [  ] cliente tem permissao apenas para cadastro e atualizacao das suas priprias informacoes
+        [  ] atendente pode vizualizar, atualizar e listar informacoes de um cliente
+        [  ] gestor pode fazer tudo que o atendente faz,deletar informacoes de todos e criar lanchonetes
+        [  ] admin pode fazer tudo
+        [  ] cada alteracao na tabela de usuario deve ter um relario
+
+        informacoes de usuario:
+        nome string
+        sobrenome string 
+        data de nascimento date
+        CPF stirng
+        enderecostirng
+        tipo enum[DEFAULT,MANAGER,ATTENDANT]
+        credenciado boolean
+        created_at
+        updated_at
+
+[  ] segunda fase - gerenciamento de entradas
+    [  ] cada cliente deve receber um cartao com um identificador unico
+    [  ] esse cartao recebra o registro de tudo que for gasto dentro do parque
+
+    informacoes do cartao:
+    id string
+    cliente string
+    produtos string
+    total int 
+    created_at
+    updated_at
+
+[  ] terceira fase - gerenciamento de lanchonetes
+    [  ] deve conter um gerente 
+    [  ] deve conter dois atendente
+    [  ] a lanchonete so funcionara caso tenha mais de um atendente
+    [  ] deve conter um estoque
+
+    informacoes da lanchonete:
+    id
+    nome
+    gerente
+    atendentes
+    estoque
+    status
+    created_at
+    updated_at
+
