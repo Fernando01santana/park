@@ -26,8 +26,8 @@ export class User {
   @Column()
   address: string;
 
-  @Column('int')
-  acess_type: acessLevel;
+//   @Column('int')
+//   acess_type: acessLevel;
 
   @Column()
   subscriber: string;
