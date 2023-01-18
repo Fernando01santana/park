@@ -1,13 +1,10 @@
 import { Module } from '@nestjs/common';
-import { DataSource } from 'typeorm';
-import connectionTypeOrm from './config/connection';
+import { TypeOrmModule } from './config/typeOrmModule';
 import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
-    connectionTypeOrm,
+    TypeOrmModule,
     UsersModule],
 })
-export class AppModule {
-  constructor(private dataSource: DataSource) {}
-}
+export class AppModule {}

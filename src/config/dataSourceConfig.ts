@@ -1,8 +1,11 @@
+import { Logger } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { config } from "dotenv";
+import { DataSource } from "typeorm";
 
 config()
-const connectionTypeOrm =  TypeOrmModule.forRoot({
+const logger = new Logger
+export const dataSourceConfig =  new DataSource({
       type: 'postgres',
       host: 'localhost',
       port: parseInt(process.env.PORT),
@@ -10,7 +13,6 @@ const connectionTypeOrm =  TypeOrmModule.forRoot({
       password: String(process.env.PASSWORD),
       database: process.env.DATABASE,
       entities: [],
+      migrations: ['dist/shared/migrations/*.js'],
       synchronize: true,
     })
-
-export default connectionTypeOrm
