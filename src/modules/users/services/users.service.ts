@@ -36,6 +36,10 @@ export class UserService {
   }
 
   async remove(id:string):Promise<void>{
+    const userExists = await this.UserRepository.findById(id)
+    if (userExists && userExists.id !== null) {
     return await this.UserRepository.delete(id)
+    }
+    throw Error("Usuario nao encontrado")
   }
 }

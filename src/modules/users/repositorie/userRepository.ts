@@ -31,9 +31,6 @@ async create(data: createUserDto): Promise<Users> {
 
 async delete(id: string): Promise<void> {
     const user = await this.repository.findBy({id:id})
-    if (!user && !user[0].id) {
-        throw Error("Usuario nao encontrado")
-    }
     await this.repository.remove(user)
 }
 
