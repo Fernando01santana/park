@@ -1,6 +1,7 @@
 import { Logger } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { config } from "dotenv";
+import { Users } from "src/modules/users/entites/user.entity";
 import { DataSource } from "typeorm";
 
 config()
@@ -12,7 +13,7 @@ export const dataSourceConfig =  new DataSource({
       username: process.env.USERNAME,
       password: String(process.env.PASSWORD),
       database: process.env.DATABASE,
-      entities: [],
+      entities: [Users],
       migrations: ['dist/shared/migrations/*.js'],
       synchronize: true,
     })

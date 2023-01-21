@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 enum acessLevel{
     client,
@@ -6,8 +6,8 @@ enum acessLevel{
     employeer,
     admin,
 }
-@Entity()
-export class User {
+@Entity("Users")
+export class Users {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -26,15 +26,12 @@ export class User {
   @Column()
   address: string;
 
-//   @Column('int')
-//   acess_type: acessLevel;
-
   @Column()
-  subscriber: string;
+  subscriber: boolean;
 
-  @Column()
+  @CreateDateColumn()
   created_at: Date;
 
-  @Column()
+  @UpdateDateColumn()
   updated_at: Date;
 }

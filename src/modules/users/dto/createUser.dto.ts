@@ -1,9 +1,24 @@
+import { IsBoolean, IsEmail, IsString } from "class-validator";
+
 export class createUserDto {
+    @IsString()
     name: string;
-    lastName: number;
+
+    @IsEmail()
+    email:string
+
+    @IsString()
+    lastName: string;
+
+    @IsString()
     birth_day: string;
+
+    @IsString()
     document: string;
+
+    @IsString()
     address: string;
-    acess_type: string;
-    subscriber: string;
+
+    @IsBoolean()
+    subscriber: boolean;
   }
