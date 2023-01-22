@@ -5,15 +5,14 @@ import { Users } from "src/modules/users/entites/user.entity";
 import { DataSource } from "typeorm";
 
 config()
-const logger = new Logger
 export const dataSourceConfig =  new DataSource({
-      type: 'postgres',
-      host: 'localhost',
-      port: parseInt(process.env.PORT),
-      username: process.env.USERNAME,
-      password: String(process.env.PASSWORD),
-      database: process.env.DATABASE,
-      entities: [Users],
-      migrations: ['dist/shared/migrations/*.js'],
-      synchronize: true,
+  type: 'postgres',
+  host: process.env.RDS_HOST,
+  port: parseInt(process.env.RDS_PORT),
+  username: process.env.RDS_USERNAME,
+  password: String(process.env.RDS_PASSWORD),
+  database: process.env.RDS_DATABASE,
+  entities: [Users],
+  migrations: ['dist/shared/migrations/*.js'],
+  synchronize: true,
     })
