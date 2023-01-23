@@ -1,24 +1,33 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
-enum acessLevel{
-    client,
-    maganer,
-    employeer,
-    admin,
+export enum acessLevel {
+  client,
+  manager,
+  employeer,
+  admin,
 }
-@Entity("Users")
+@Entity('users')
 export class Users {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
   name: string;
 
   @Column()
+  email: string;
+
+  @Column()
   lastName: string;
 
   @Column()
-  birth_day: Date;
+  birthDay: Date;
 
   @Column()
   document: string;
@@ -29,9 +38,16 @@ export class Users {
   @Column()
   subscriber: boolean;
 
+  @Column({
+    type: 'enum',
+    enum: acessLevel,
+    default: acessLevel.client,
+  })
+  acessLevel: string;
+
   @CreateDateColumn()
-  created_at: Date;
+  createdAt: Date;
 
   @UpdateDateColumn()
-  updated_at: Date;
+  updatedAt: Date;
 }

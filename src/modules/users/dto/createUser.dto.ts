@@ -1,24 +1,27 @@
-import { IsBoolean, IsEmail, IsString } from "class-validator";
+import { IsArray, IsBoolean, IsEmail, IsString } from 'class-validator';
 
 export class createUserDto {
-    @IsString()
-    name: string;
+  @IsString()
+  name: string;
 
-    @IsEmail()
-    email:string
+  @IsEmail()
+  email: string;
 
-    @IsString()
-    lastName: string;
+  @IsString()
+  lastName: string;
 
-    @IsString()
-    birth_day: string;
+  @IsArray()
+  acessLevel: string[];
 
-    @IsString()
-    document: string;
+  @IsString()
+  birth_day: string;
 
-    @IsString()
-    address: string;
+  @IsString()
+  document: string;
 
-    @IsBoolean()
-    subscriber: boolean;
-  }
+  @IsString()
+  address: string;
+
+  @IsBoolean()
+  subscriber: boolean;
+}
