@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import { createUserDto } from '../dto/createUser.dto';
 import { updateUser } from '../dto/updatedUser.dto';
 import { acessLevel, Users } from '../entites/user.entity';
-import UserRepositoryInterface from '../interface/IUserRepository';
+import UserRepositoryInterface from '../interface/userRepositorie.interface';
 
 export default class UserRepository implements UserRepositoryInterface {
   constructor(

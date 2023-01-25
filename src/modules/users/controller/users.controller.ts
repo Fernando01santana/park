@@ -10,7 +10,7 @@ import {
 import { createUserDto } from '../dto/createUser.dto';
 import { updateUser } from '../dto/updatedUser.dto';
 import { Users } from '../entites/user.entity';
-import { ICreatedUser } from '../interface/ICreatedUser';
+import { ICreatedUser } from '../interface/createUser.interface';
 import { UserService } from '../services/users.service';
 @Controller('user')
 export class AppController {

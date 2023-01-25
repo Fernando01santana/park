@@ -8,8 +8,8 @@ import {
 import { createUserDto } from '../dto/createUser.dto';
 import { updateUser } from '../dto/updatedUser.dto';
 import { acessLevel, Users } from '../entites/user.entity';
-import { ICreatedUser } from '../interface/ICreatedUser';
-import UserRepository from '../repositorie/userRepository';
+import { ICreatedUser } from '../interface/createUser.interface';
+import UserRepository from '../repositorie/user.repository';
 
 @Injectable()
 export class UserService {
