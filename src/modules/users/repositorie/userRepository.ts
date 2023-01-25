@@ -10,25 +10,16 @@ export default class UserRepository implements UserRepositoryInterface {
     @InjectRepository(Users)
     private repository: Repository<Users>,
   ) {}
-  async create(data: createUserDto): Promise<Users> {
-    const acessLevelSearch = await this.searchAcessLevel(data.acessLevel[0]);
-    console.log(acessLevelSearch);
-
-    if (!acessLevelSearch) {
-      throw Error('Nivel de acesso informado nao existe!');
-    }
-
-    const createUser = await this.repository.create();
+  async create(data: createUserDto, levelAcess: acessLevel): Promise<Users> {
+    const createUser = this.repository.create();
     createUser.address = data.address;
     createUser.birthDay = this.convertData(data.birth_day);
     createUser.document = data.document;
-    createUser.lastName = data.name;
-    createUser.name = data.lastName;
+    createUser.lastName = data.lastName;
+    createUser.name = data.name;
     createUser.subscriber = data.subscriber;
-    createUser.acessLevel = acessLevelSearch;
+    createUser.acessLevel = levelAcess;
     createUser.email = data.email;
-    createUser.id = '';
-    console.log(createUser);
 
     try {
       await this.repository.save(createUser);
@@ -45,9 +36,7 @@ export default class UserRepository implements UserRepositoryInterface {
 
   async update(id: string, updateData: updateUser): Promise<Users> {
     const user = await this.repository.findOne({ where: { id: id } });
-    if (!user && !user.id) {
-      throw Error('Usuario nao encontrado');
-    }
+
     user.lastName = updateData.lastName;
     user.name = updateData.name;
     user.birthDay = this.convertData(updateData.birthDay);
@@ -56,8 +45,6 @@ export default class UserRepository implements UserRepositoryInterface {
 
     this.repository.save(user);
     return user;
-
-    // const userUpdated = await this.repository.update(user[0].id,updateData)
   }
 
   list(): Promise<Users[]> {
@@ -85,14 +72,7 @@ export default class UserRepository implements UserRepositoryInterface {
 
     return stringDateToDate;
   }
-
-  async searchAcessLevel(level: string): Promise<string> {
-    for (const key in acessLevel) {
-      const element = acessLevel[key];
-
-      if (level.toLowerCase() === element) {
-        return element;
-      }
-    }
+  findByEmail(email: string): Promise<Users> {
+    return this.repository.findOne({ where: { email: email } });
   }
 }
