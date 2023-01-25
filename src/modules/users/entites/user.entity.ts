@@ -7,10 +7,10 @@ import {
 } from 'typeorm';
 
 export enum acessLevel {
-  client,
-  manager,
-  employeer,
-  admin,
+  client = 'client',
+  manager = 'manager',
+  employeer = 'employeer',
+  admin = 'admin',
 }
 @Entity('users')
 export class Users {
@@ -38,12 +38,8 @@ export class Users {
   @Column()
   subscriber: boolean;
 
-  @Column({
-    type: 'enum',
-    enum: acessLevel,
-    default: acessLevel.client,
-  })
-  acessLevel: string;
+  @Column('int')
+  acessLevel: acessLevel;
 
   @CreateDateColumn()
   createdAt: Date;
