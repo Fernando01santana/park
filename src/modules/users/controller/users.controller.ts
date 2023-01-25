@@ -10,13 +10,14 @@ import {
 import { createUserDto } from '../dto/createUser.dto';
 import { updateUser } from '../dto/updatedUser.dto';
 import { Users } from '../entites/user.entity';
+import { ICreatedUser } from '../interface/ICreatedUser';
 import { UserService } from '../services/users.service';
 @Controller('user')
 export class AppController {
   constructor(private readonly userService: UserService) {}
 
   @Post('/create')
-  async create(@Body() data: createUserDto): Promise<Users> {
+  async create(@Body() data: createUserDto): Promise<ICreatedUser> {
     return await this.userService.create(data);
   }
 
