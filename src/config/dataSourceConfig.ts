@@ -1,4 +1,5 @@
 import { config } from 'dotenv';
+import { Address } from 'src/modules/address/entities/address.entity';
 import { Users } from 'src/modules/users/entites/user.entity';
 import { DataSource } from 'typeorm';
 
@@ -10,7 +11,7 @@ export const dataSourceConfig = new DataSource({
   username: process.env.RDS_USERNAME,
   password: String(process.env.RDS_PASSWORD),
   database: process.env.RDS_DATABASE,
-  entities: [Users],
+  entities: [Users, Address],
   migrations: ['dist/shared/migrations/*.js'],
   synchronize: false,
 });

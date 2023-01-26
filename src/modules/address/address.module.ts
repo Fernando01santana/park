@@ -5,10 +5,14 @@ https://docs.nestjs.com/modules
 */
 
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Address } from './entities/address.entity';
+import AddressRepository from './repositorie/address.repository';
 
 @Module({
-  imports: [],
+  imports: [TypeOrmModule.forFeature([Address])],
   controllers: [AddressController],
-  providers: [AddressService],
+  providers: [AddressService, AddressRepository],
+  exports: [AddressService],
 })
 export class AddressModule {}

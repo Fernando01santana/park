@@ -1,18 +1,24 @@
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Address } from 'src/modules/address/entities/address.entity';
 import { Repository } from 'typeorm';
 import { createUserDto } from '../dto/createUser.dto';
 import { updateUser } from '../dto/updatedUser.dto';
 import { acessLevel, Users } from '../entites/user.entity';
 import UserRepositoryInterface from '../interface/userRepositorie.interface';
 
+@Injectable()
 export default class UserRepository implements UserRepositoryInterface {
   constructor(
     @InjectRepository(Users)
     private repository: Repository<Users>,
+    @InjectRepository(Address)
+    private addresRepository: Repository<Address>,
   ) {}
   async create(data: createUserDto, levelAcess: acessLevel): Promise<Users> {
     const createUser = this.repository.create();
-    createUser.address = data.address;
+    const address = this.addresRepository.create(data.address);
+
     createUser.birthDay = this.convertData(data.birth_day);
     createUser.document = data.document;
     createUser.lastName = data.lastName;
@@ -20,6 +26,7 @@ export default class UserRepository implements UserRepositoryInterface {
     createUser.subscriber = data.subscriber;
     createUser.acessLevel = levelAcess;
     createUser.email = data.email;
+    createUser.address = [address];
 
     try {
       await this.repository.save(createUser);
@@ -40,7 +47,6 @@ export default class UserRepository implements UserRepositoryInterface {
     user.lastName = updateData.lastName;
     user.name = updateData.name;
     user.birthDay = this.convertData(updateData.birthDay);
-    user.address = updateData.address;
     user.subscriber = updateData.subscriber;
 
     this.repository.save(user);
@@ -54,6 +60,7 @@ export default class UserRepository implements UserRepositoryInterface {
   async findByDocument(document: string): Promise<boolean> {
     const user = await this.repository.findOne({
       where: { document: document },
+      relations: ['address'],
     });
     if (user) {
       return true;

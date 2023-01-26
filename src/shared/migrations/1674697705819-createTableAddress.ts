@@ -1,10 +1,15 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableForeignKey,
+} from 'typeorm';
 
-export class createTableUser1674095021623 implements MigrationInterface {
+export class createTableAddress1674697705819 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'users',
+        name: 'address',
         columns: [
           {
             name: 'id',
@@ -14,25 +19,28 @@ export class createTableUser1674095021623 implements MigrationInterface {
             default: 'uuid_generate_v4()',
           },
           {
-            name: 'name',
+            name: 'street',
             type: 'varchar',
           },
           {
-            name: 'lastName',
+            name: 'district',
             type: 'varchar',
           },
           {
-            name: 'birthDay',
-            type: 'timestamp',
-            default: 'now()',
-          },
-          {
-            name: 'document',
+            name: 'zipCode',
             type: 'varchar',
           },
           {
-            name: 'subscriber',
-            type: 'boolean',
+            name: 'numberHouse',
+            type: 'varchar',
+          },
+          {
+            name: 'complement',
+            type: 'varchar',
+          },
+          {
+            name: 'userId',
+            type: 'uuid',
           },
           {
             name: 'createdAt',
@@ -48,9 +56,20 @@ export class createTableUser1674095021623 implements MigrationInterface {
       }),
       true,
     );
+
+    await queryRunner.createForeignKey(
+      'address',
+      new TableForeignKey({
+        name: 'AddressUser',
+        columnNames: ['userId'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'users',
+        onDelete: 'SET NULL',
+      }),
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('users');
+    await queryRunner.dropTable('address');
   }
 }

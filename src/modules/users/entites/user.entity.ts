@@ -1,7 +1,9 @@
+import { Address } from 'src/modules/address/entities/address.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -33,13 +35,13 @@ export class Users {
   document: string;
 
   @Column()
-  address: string;
-
-  @Column()
   subscriber: boolean;
 
   @Column('int')
   acessLevel: acessLevel;
+
+  @OneToMany(() => Address, (address) => address.user, { eager: true })
+  address: Address[];
 
   @CreateDateColumn()
   createdAt: Date;

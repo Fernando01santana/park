@@ -1,4 +1,11 @@
-import { IsArray, IsBoolean, IsEmail, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsEmail,
+  IsObject,
+  IsString,
+} from 'class-validator';
+import { createAddress } from 'src/modules/address/dto/createAdress.dto';
 
 export class createUserDto {
   @IsString()
@@ -19,8 +26,8 @@ export class createUserDto {
   @IsString()
   document: string;
 
-  @IsString()
-  address: string;
+  @IsObject()
+  address: createAddress;
 
   @IsBoolean()
   subscriber: boolean;
