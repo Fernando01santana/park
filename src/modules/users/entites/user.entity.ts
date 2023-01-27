@@ -3,7 +3,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -40,8 +41,14 @@ export class Users {
   @Column('int')
   acessLevel: acessLevel;
 
-  @OneToMany(() => Address, (address) => address.user, { eager: true })
-  address: Address[];
+  @ManyToOne((type) => Address, (address) => address.user, {
+    cascade: true,
+    nullable: false,
+    onDelete: 'CASCADE',
+    eager: true,
+  })
+  @JoinColumn({ name: 'addressId' })
+  address: Address;
 
   @CreateDateColumn()
   createdAt: Date;

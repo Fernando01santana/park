@@ -3,7 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -28,8 +28,8 @@ export class Address {
   @Column()
   complement: string;
 
-  @ManyToOne(() => Users, (user) => user.address)
-  user: Users;
+  @OneToMany(() => Users, (user) => user.address)
+  user: Users[];
 
   @CreateDateColumn()
   createdAt: Date;

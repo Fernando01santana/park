@@ -11,12 +11,12 @@ import UserRepositoryInterface from '../interface/userRepositorie.interface';
 export default class UserRepository implements UserRepositoryInterface {
   constructor(
     @InjectRepository(Users)
-    private repository: Repository<Users>,
+    private userRepository: Repository<Users>,
     @InjectRepository(Address)
     private addresRepository: Repository<Address>,
   ) {}
   async create(data: createUserDto, levelAcess: acessLevel): Promise<Users> {
-    const createUser = this.repository.create();
+    const createUser = this.userRepository.create();
     const address = this.addresRepository.create(data.address);
 
     createUser.birthDay = this.convertData(data.birth_day);
@@ -26,10 +26,10 @@ export default class UserRepository implements UserRepositoryInterface {
     createUser.subscriber = data.subscriber;
     createUser.acessLevel = levelAcess;
     createUser.email = data.email;
-    createUser.address = [address];
+    createUser.address = address;
 
     try {
-      await this.repository.save(createUser);
+      await this.userRepository.save(createUser);
       return createUser;
     } catch (error) {
       throw new Error(error.message);
@@ -37,30 +37,29 @@ export default class UserRepository implements UserRepositoryInterface {
   }
 
   async delete(id: string): Promise<void> {
-    const user = await this.repository.findBy({ id: id });
-    await this.repository.remove(user);
+    const user = await this.userRepository.findBy({ id: id });
+    await this.userRepository.remove(user);
   }
 
   async update(id: string, updateData: updateUser): Promise<Users> {
-    const user = await this.repository.findOne({ where: { id: id } });
+    const user = await this.userRepository.findOne({ where: { id: id } });
 
     user.lastName = updateData.lastName;
     user.name = updateData.name;
     user.birthDay = this.convertData(updateData.birthDay);
     user.subscriber = updateData.subscriber;
 
-    this.repository.save(user);
+    this.userRepository.save(user);
     return user;
   }
 
   list(): Promise<Users[]> {
-    return this.repository.find();
+    return this.userRepository.find();
   }
 
   async findByDocument(document: string): Promise<boolean> {
-    const user = await this.repository.findOne({
+    const user = await this.userRepository.findOne({
       where: { document: document },
-      relations: ['address'],
     });
     if (user) {
       return true;
@@ -69,7 +68,7 @@ export default class UserRepository implements UserRepositoryInterface {
   }
 
   async findById(id: string): Promise<Users> {
-    return await this.repository.findOne({ where: { id: id } });
+    return await this.userRepository.findOne({ where: { id: id } });
   }
 
   convertData(data: string): Date {
@@ -80,6 +79,6 @@ export default class UserRepository implements UserRepositoryInterface {
     return stringDateToDate;
   }
   findByEmail(email: string): Promise<Users> {
-    return this.repository.findOne({ where: { email: email } });
+    return this.userRepository.findOne({ where: { email: email } });
   }
 }
