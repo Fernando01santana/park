@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 import {
   LevelAcessNotExistsException,
   UserCreatedException,
@@ -31,6 +32,12 @@ export class UserService {
     if (!acessLevelSearch) {
       throw new LevelAcessNotExistsException();
     }
+
+    createUser.password = await this.hashPassordGenerate(
+      createUser.password,
+      13,
+    );
+
     const user = await this.UserRepository.create(createUser, acessLevelSearch);
     return { user: user, msg: new UserCreatedException() };
   }
@@ -71,10 +78,27 @@ export class UserService {
     }
   }
 
-  async emailVerify(email: string): Promise<void> {
+  async emailVerify(email: string): Promise<Users> {
     const emailExists = await this.UserRepository.findByEmail(email);
     if (!emailExists || !emailExists.id) {
       throw new UserExistsException();
     }
+    return emailExists;
+  }
+
+  async hashPassordGenerate(password, saltRounds): Promise<string> {
+    let passwordHashed;
+    await bcrypt.hash(password, saltRounds).then((hash) => {
+      passwordHashed = hash;
+    });
+    return passwordHashed;
+  }
+
+  async passwordHashVerify(passwordHash, password): Promise<boolean> {
+    let resultCompare;
+    await bcrypt.compare(password, passwordHash).then((result) => {
+      resultCompare = result;
+    });
+    return resultCompare;
   }
 }

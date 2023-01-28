@@ -50,6 +50,9 @@ export class Users {
   @JoinColumn({ name: 'addressId' })
   address: Address;
 
+  @Column()
+  password: string;
+
   @CreateDateColumn()
   createdAt: Date;
 

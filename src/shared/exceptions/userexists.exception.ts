@@ -29,3 +29,9 @@ export class LevelAcessNotExistsException extends HttpException {
     super('Nivel de acesso informado nao existe!', HttpStatus.NOT_FOUND);
   }
 }
+
+export class ErrorHashPasswordGenerate extends HttpException {
+  constructor() {
+    super('Erro ao gerar hash da senha informada!', HttpStatus.NOT_MODIFIED);
+  }
+}

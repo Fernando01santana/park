@@ -93,6 +93,10 @@ export class createTableUser1674095021623 implements MigrationInterface {
             type: 'varchar',
           },
           {
+            name: 'password',
+            type: 'varchar',
+          },
+          {
             name: 'acessLevel',
             type: 'enum',
             enum: ['CLIENT', 'MANAGER', 'EMPLOYEER', 'ADMIN'],

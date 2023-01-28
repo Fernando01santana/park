@@ -34,6 +34,7 @@ export class AppController {
     return this.userService.remove(id);
   }
 
+  // @UseGuards(JwtAuthGuard)
   @Get('/list')
   async list(): Promise<Users[]> {
     return this.userService.list();
