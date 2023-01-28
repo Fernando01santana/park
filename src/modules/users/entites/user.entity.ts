@@ -53,6 +53,9 @@ export class Users {
   @Column()
   password: string;
 
+  @Column()
+  lot: number;
+
   @CreateDateColumn()
   createdAt: Date;
 
