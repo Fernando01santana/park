@@ -1,12 +1,8 @@
-import {
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod,
-} from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import * as bodyParser from 'body-parser';
-import { DocumentValidateMiddleware } from 'src/shared/middlewares/userMiddleware';
+import { JwtValidateMiddleware } from 'src/shared/middlewares/jwt.middleware';
+import { DocumentValidateMiddleware } from 'src/shared/middlewares/user.middleware';
 import { Address } from '../address/entities/address.entity';
 import { AppController } from './controller/users.controller';
 import { Users } from './entites/user.entity';
@@ -15,13 +11,16 @@ import { UserService } from './services/users.service';
 @Module({
   imports: [TypeOrmModule.forFeature([Users, Address])],
   controllers: [AppController],
-  providers: [UserService, UserRepository, DocumentValidateMiddleware],
+  providers: [
+    UserService,
+    UserRepository,
+    DocumentValidateMiddleware,
+    JwtService,
+  ],
   exports: [UserService],
 })
 export class UsersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(bodyParser.json(), DocumentValidateMiddleware)
-      .forRoutes({ path: 'user/create', method: RequestMethod.POST });
+    consumer.apply(JwtValidateMiddleware).forRoutes('user');
   }
 }

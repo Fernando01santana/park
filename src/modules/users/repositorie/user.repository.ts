@@ -18,7 +18,6 @@ export default class UserRepository implements UserRepositoryInterface {
   async create(data: createUserDto, levelAcess: acessLevel): Promise<Users> {
     const createUser = this.userRepository.create();
     const address = this.addresRepository.create(data.address);
-    console.log(data);
 
     createUser.birthDay = this.convertData(data.birth_day);
     createUser.document = data.document;

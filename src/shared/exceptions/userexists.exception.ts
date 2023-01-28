@@ -35,3 +35,15 @@ export class ErrorHashPasswordGenerate extends HttpException {
     super('Erro ao gerar hash da senha informada!', HttpStatus.NOT_MODIFIED);
   }
 }
+
+export class JwtExpired extends HttpException {
+  constructor() {
+    super('Token expirado, faça login novamente!', HttpStatus.BAD_REQUEST);
+  }
+}
+
+export class TokenJwtNotFound extends HttpException {
+  constructor() {
+    super('Token nao enviado!', HttpStatus.NOT_FOUND);
+  }
+}
