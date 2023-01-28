@@ -23,7 +23,7 @@ export class createTableProduct1674874317023 implements MigrationInterface {
             type: 'varchar',
           },
           {
-            name: 'acessLevel',
+            name: 'typeProduct',
             type: 'enum',
             enum: ['FRESH', 'PROCESSED', 'DRINKS', 'ELETRONIC', 'TOY'],
             isNullable: true,

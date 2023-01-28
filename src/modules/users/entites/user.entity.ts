@@ -10,10 +10,10 @@ import {
 } from 'typeorm';
 
 export enum acessLevel {
-  client = 'client',
-  manager = 'manager',
-  employeer = 'employeer',
-  admin = 'admin',
+  CLIENT = 'CLIENT',
+  MANAGER = 'MANAGER',
+  EMPLOYEER = 'EMPLYEER',
+  ADMIN = 'ADMIN',
 }
 @Entity('users')
 export class Users {
@@ -52,9 +52,6 @@ export class Users {
 
   @Column()
   password: string;
-
-  @Column()
-  lot: number;
 
   @CreateDateColumn()
   createdAt: Date;

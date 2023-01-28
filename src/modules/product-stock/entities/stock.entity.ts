@@ -18,7 +18,7 @@ export class Stock {
   price: number;
 
   @Column()
-  dateValidade: Date;
+  dateValidate: Date;
 
   @CreateDateColumn()
   createdAt: Date;

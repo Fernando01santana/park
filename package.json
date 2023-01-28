@@ -13,7 +13,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "typeorm": "npm run build && npx typeorm -d dist/config/dataSourceConfig.js",
+    "typeorm": "npm run build && npx typeorm -d dist/config/datasource/dataSourceConfig.js",
     "migration:generate": "npm run typeorm -- migration:generate",
     "migration:create": "typeorm  migration:create",
     "migration:run": "npm run typeorm -- migration:run",

@@ -1,3 +1,4 @@
+import { Stock } from 'src/modules/product-stock/entities/stock.entity';
 import {
   Column,
   CreateDateColumn,
@@ -7,16 +8,17 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
 export enum typeProduct {
-  fresh = 'fresh',
-  processed = 'processed',
-  drinks = 'drinks',
-  electronic = 'electronic',
-  toy = 'toy',
+  FRESH = 'FRESH',
+  PROCESSED = 'PROCESSED',
+  DRINKS = 'DRINKS',
+  ELETRONIC = 'ELETRONIC',
+  TOY = 'TOY',
 }
 
-@Entity('stock')
-export class Stock {
+@Entity('products')
+export class Product {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -24,7 +26,7 @@ export class Stock {
   description: string;
 
   @Column('int')
-  type: typeProduct;
+  typeProduct: typeProduct;
 
   @OneToOne(() => Stock)
   @JoinColumn()

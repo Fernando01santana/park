@@ -66,13 +66,13 @@ export class UserService {
   async searchAcessLevel(level: string): Promise<acessLevel | void> {
     switch (level) {
       case 'client':
-        return acessLevel.client;
+        return acessLevel.CLIENT;
       case 'manager':
-        return acessLevel.manager;
+        return acessLevel.MANAGER;
       case 'employeer':
-        return acessLevel.employeer;
+        return acessLevel.EMPLOYEER;
       case 'admin':
-        return acessLevel.admin;
+        return acessLevel.ADMIN;
       default:
         return null;
     }
