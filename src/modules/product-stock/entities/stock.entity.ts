@@ -1,7 +1,9 @@
+import { Product } from 'src/modules/product/entities/product.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -19,6 +21,9 @@ export class Stock {
 
   @Column()
   dateValidate: Date;
+
+  @OneToMany(() => Product, (product) => product.stock)
+  products: Product[];
 
   @CreateDateColumn()
   createdAt: Date;

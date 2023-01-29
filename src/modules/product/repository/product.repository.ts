@@ -1,43 +1,34 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Stock } from 'src/modules/product-stock/entities/stock.entity';
+import { TypeProductNotFound } from 'src/shared/exceptions/product.exception';
+import { Utils } from 'src/shared/utils/utils';
 import { Repository } from 'typeorm';
-import { CreateProductDto } from '../dto/createProduct.dto';
-import { Product, typeProduct } from '../entities/product.entity';
-import ProductRepositoryInterface from '../interface/ProductRepositoryInterface';
-
+import { Product } from '../entities/product.entity';
 @Injectable()
-export default class ProductRepository implements ProductRepositoryInterface {
+export default class ProductRepository {
   constructor(
     @InjectRepository(Product)
     private productRepository: Repository<Product>,
     @InjectRepository(Stock)
     private stockRepository: Repository<Stock>,
+    private utils: Utils,
   ) {}
-  async create(createProduct: CreateProductDto): Promise<Product> {
+  async create(createProduct): Promise<Product> {
     try {
-      const dataCreateStock = {
-        amount: createProduct.stock.amount,
-        dateValidate: this.convertData(createProduct.stock.dateValidate),
-        price: createProduct.stock.price,
-      };
-      const createStock = await this.stockRepository.create(dataCreateStock);
-
-      await this.stockRepository.save(createStock);
-
-      const typeProduct = await this.searchTypeProduct(createProduct.type[0]);
-
-      if (!typeProduct) {
-        throw new Error('Tipo de produto nao encontrado');
-      }
-      let createProductSerialize = {
-        description: createProduct.description,
-        typeProduct: typeProduct,
-        stock: createStock,
-      };
-      const createdProduct = await this.productRepository.create(
-        createProductSerialize,
+      const typeProduct = await this.utils.searchTypeProduct(
+        createProduct.type,
       );
+      if (!typeProduct) {
+        throw new TypeProductNotFound();
+      }
+
+      const dataProduct = {
+        description: createProduct.description,
+        stock: createProduct.stock,
+        typeProduct: typeProduct,
+      };
+      const createdProduct = this.productRepository.create(dataProduct);
       await this.productRepository.save(createdProduct);
 
       return createdProduct;
@@ -46,28 +37,29 @@ export default class ProductRepository implements ProductRepositoryInterface {
     }
   }
 
-  async searchTypeProduct(level: string): Promise<typeProduct | void> {
-    switch (level) {
-      case 'drinks':
-        return typeProduct.DRINKS;
-      case 'electronic':
-        return typeProduct.ELETRONIC;
-      case 'fresh':
-        return typeProduct.FRESH;
-      case 'processed':
-        return typeProduct.PROCESSED;
-      case 'toy':
-        return typeProduct.TOY;
-      default:
-        return null;
-    }
+  list(): Promise<Product[]> {
+    return this.productRepository.find({ relations: { stock: true } });
   }
 
-  convertData(data: string): Date {
-    const dateSplit = data.split('/');
-    const dataFormtada = dateSplit[1] + '-' + dateSplit[0] + '-' + dateSplit[2];
-    const stringDateToDate = new Date(dataFormtada);
+  findByName(descriptionProduct: string): Promise<Product> {
+    return this.productRepository.findOne({
+      where: { description: descriptionProduct },
+    });
+  }
 
-    return stringDateToDate;
+  async findByDateValidate(dateValidade: string): Promise<Product[]> {
+    const dateValidate = this.utils.convertData(dateValidade);
+    return await this.productRepository
+      .createQueryBuilder('products')
+      .leftJoinAndSelect('products.stock', 'itemStock')
+      .where('itemStock.dateValidate', { dateValidate })
+      .getMany();
+  }
+  async findByLot(lot: string): Promise<Product[]> {
+    return this.productRepository
+      .createQueryBuilder('products')
+      .leftJoinAndSelect('products.stock', 'itemStock')
+      .where('itemStock.id', { lot })
+      .getMany();
   }
 }

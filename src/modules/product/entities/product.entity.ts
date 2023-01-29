@@ -4,7 +4,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  OneToOne,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -28,8 +28,13 @@ export class Product {
   @Column('int')
   typeProduct: typeProduct;
 
-  @OneToOne(() => Stock)
-  @JoinColumn()
+  @ManyToOne((type) => Stock, (stock) => stock.products, {
+    cascade: true,
+    nullable: false,
+    onDelete: 'CASCADE',
+    eager: true,
+  })
+  @JoinColumn({ name: 'stockId' })
   stock: Stock;
 
   @CreateDateColumn()
