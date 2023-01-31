@@ -37,6 +37,9 @@ export class Product {
   @JoinColumn({ name: 'stockId' })
   stock: Stock;
 
+  @Column()
+  barCode: string;
+
   @CreateDateColumn()
   createdAt: Date;
 

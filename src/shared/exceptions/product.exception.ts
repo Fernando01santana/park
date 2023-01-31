@@ -11,3 +11,9 @@ export class ProductExists extends HttpException {
     super('Produto informado ja cadastrado no sistema', HttpStatus.AMBIGUOUS);
   }
 }
+
+export class ProductNotFount extends HttpException {
+  constructor() {
+    super('Produto nao encontrado', HttpStatus.NOT_FOUND);
+  }
+}

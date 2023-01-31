@@ -1,12 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class createTableProductStock1674874311276
-  implements MigrationInterface
-{
+export class createTableLots1675000448950 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'stock',
+        name: 'lots',
         columns: [
           {
             name: 'id',
@@ -16,20 +14,20 @@ export class createTableProductStock1674874311276
             default: 'uuid_generate_v4()',
           },
           {
-            name: 'amount',
-            type: 'varchar',
-          },
-          {
-            name: 'price',
-            type: 'varchar',
+            name: 'numberLot',
+            type: 'int',
           },
           {
             name: 'dateValidate',
             type: 'timestamp',
           },
           {
-            name: 'lotId',
-            type: 'uuid',
+            name: 'dateFabrication',
+            type: 'timestamp',
+          },
+          {
+            name: 'qtdeItems',
+            type: 'int',
           },
           {
             name: 'createdAt',
@@ -47,6 +45,6 @@ export class createTableProductStock1674874311276
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('stock');
+    await queryRunner.dropTable('lots');
   }
 }

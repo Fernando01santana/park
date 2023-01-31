@@ -1,4 +1,5 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsObject, IsString } from 'class-validator';
+import { CreateLotDto } from 'src/modules/lots/dto/createLot.dto';
 
 export class CreateStockDto {
   @IsNumber()
@@ -9,4 +10,7 @@ export class CreateStockDto {
 
   @IsString()
   dateValidate: string;
+
+  @IsObject()
+  lot: CreateLotDto;
 }

@@ -1,7 +1,7 @@
 import { IsArray, IsObject, IsString } from 'class-validator';
 import { CreateStockDto } from 'src/modules/product-stock/dto/createStock.dto';
 
-export class CreateProductDto {
+export class UpdateProductDto {
   @IsString()
   description: string;
 
@@ -13,4 +13,7 @@ export class CreateProductDto {
 
   @IsString()
   barCode: string;
+
+  @IsString()
+  idStock: string;
 }

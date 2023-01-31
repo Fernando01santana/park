@@ -23,6 +23,10 @@ export class createTableProduct1674874317023 implements MigrationInterface {
             type: 'varchar',
           },
           {
+            name: 'barCode',
+            type: 'varchar',
+          },
+          {
             name: 'typeProduct',
             type: 'enum',
             enum: ['FRESH', 'PROCESSED', 'DRINKS', 'ELETRONIC', 'TOY'],
@@ -32,6 +36,7 @@ export class createTableProduct1674874317023 implements MigrationInterface {
             name: 'stockId',
             type: 'uuid',
           },
+
           {
             name: 'createdAt',
             type: 'timestamp',

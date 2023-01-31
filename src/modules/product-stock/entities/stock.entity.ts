@@ -1,9 +1,12 @@
+import { Lots } from 'src/modules/lots/entities/lot.entity';
 import { Product } from 'src/modules/product/entities/product.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -19,11 +22,15 @@ export class Stock {
   @Column()
   price: number;
 
-  @Column()
-  dateValidate: Date;
+  @OneToOne(() => Lots)
+  @JoinColumn({ name: 'lotId' })
+  lot: Lots;
 
   @OneToMany(() => Product, (product) => product.stock)
   products: Product[];
+
+  @Column()
+  dateValidate: Date;
 
   @CreateDateColumn()
   createdAt: Date;
