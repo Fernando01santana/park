@@ -81,7 +81,7 @@ export class UserService {
   async emailVerify(email: string): Promise<Users> {
     const emailExists = await this.UserRepository.findByEmail(email);
     if (!emailExists || !emailExists.id) {
-      throw new UserExistsException();
+      throw new UserNotFoundException();
     }
     return emailExists;
   }
